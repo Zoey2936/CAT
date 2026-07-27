@@ -9,8 +9,8 @@
     },
     "require": {
         "geoip2/geoip2": "^2.9",
-        "phpmailer/phpmailer": "^6.0",
-        "simplesamlphp/simplesamlphp": "2.4.5",
+        "phpmailer/phpmailer": "^7.0",
+        "simplesamlphp/simplesamlphp": "^2.5.2",
         "chillerlan/php-qrcode": "^4.3",
         "pear/net_dns2": "1.5.3",
         "components/jquery": "^3.6",
