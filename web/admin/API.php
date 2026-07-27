@@ -51,7 +51,7 @@ if (!isset($inputDecoded['APIKEY'])) {
 
 $checkval = "FAIL";
 foreach (\config\ConfAssistant::CONSORTIUM['registration_API_keys'] as $key => $fed_name) {
-    if ($inputDecoded['APIKEY'] === $key) {
+    if (hash_equals($key, $inputDecoded['APIKEY'])) {
         $mode = "API";
         $federation = $fed_name;
         $checkval = "OK-NEW";

@@ -314,6 +314,9 @@ class IdPlist extends common\Entity
         $icon = 0;
         foreach ($options as $option) {
             $opt = explode('===', $option);
+            if (!isset($opt[2])) {
+                $opt[2] = 'C';
+            }
             switch ($opt[0]) {
                 case 'general:logo_file':
                     $icon = $idp->inst_id;
