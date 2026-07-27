@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-09 10:19+0200\n"
+"POT-Creation-Date: 2026-07-27 12:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,16 +119,12 @@ msgid ""
 "added to the preferred networks."
 msgstr ""
 
-#: devices/Devices-template.php:428
+#: devices/Devices-template.php:428 devices/Devices-template.php:456
 msgid "Android 8 and higher"
 msgstr ""
 
-#: devices/Devices-template.php:438 devices/Devices-template.php:466
-#: devices/Devices-template.php:483 devices/Devices-template.php:510
-#: devices/Devices-template.php:524 devices/Devices-template.php:538
-#: devices/Devices-template.php:552 devices/Devices-template.php:566
-#: devices/Devices-template.php:580 devices/Devices-template.php:594
-#: devices/Devices-template.php:608
+#: devices/Devices-template.php:436 devices/Devices-template.php:466
+#: devices/Devices-template.php:495 devices/Devices-template.php:512
 #, php-format
 msgid ""
 "Before you proceed with installation on Android systems, please make sure "
@@ -137,16 +133,27 @@ msgid ""
 "to create all necessary settings."
 msgstr ""
 
-#: devices/Devices-template.php:440 devices/Devices-template.php:468
-#: devices/Devices-template.php:485 devices/Devices-template.php:512
-#: devices/Devices-template.php:526 devices/Devices-template.php:540
-#: devices/Devices-template.php:554 devices/Devices-template.php:568
-#: devices/Devices-template.php:582 devices/Devices-template.php:596
-#: devices/Devices-template.php:610
+#: devices/Devices-template.php:439
+#, php-format
+msgid ""
+"Use our app, it will guide you through the setup process:%s.<p>After "
+"installation, open the app, select your home institution and the app will "
+"collect required information (this will require an internet connection)."
+"<p><span style='font-size:90%%'>If you want to save the configuration for "
+"later offline deployment, you can download it by %s.</span>"
+msgstr ""
+
+#: devices/Devices-template.php:448 devices/Devices-template.php:482
+#: devices/Devices-template.php:526
+msgid "clicking here"
+msgstr ""
+
+#: devices/Devices-template.php:468 devices/Devices-template.php:497
+#: devices/Devices-template.php:514
 msgid "as local download"
 msgstr ""
 
-#: devices/Devices-template.php:442 devices/Devices-template.php:486
+#: devices/Devices-template.php:470 devices/Devices-template.php:515
 #, php-format
 msgid ""
 "Use our app, it will guide you through the setup process:%s(or download it "
@@ -157,84 +164,37 @@ msgid ""
 "span>"
 msgstr ""
 
-#: devices/Devices-template.php:452 devices/Devices-template.php:496
+#: devices/Devices-template.php:481 devices/Devices-template.php:525
 msgid "here"
 msgstr ""
 
-#: devices/Devices-template.php:453 devices/Devices-template.php:497
-msgid "clicking here"
-msgstr ""
-
-#: devices/Devices-template.php:459
+#: devices/Devices-template.php:488
 msgid "Android 8 to 10"
 msgstr ""
 
-#: devices/Devices-template.php:474
+#: devices/Devices-template.php:503
 msgid "Android 4.3 to 7"
 msgstr ""
 
-#: devices/Devices-template.php:503
-msgid "Android 10.0 Q"
-msgstr ""
-
-#: devices/Devices-template.php:517
-msgid "Android 9.0 Pie"
-msgstr ""
-
-#: devices/Devices-template.php:531
-msgid "Android 8.0 Oreo"
-msgstr ""
-
-#: devices/Devices-template.php:545
-msgid "Android 7.0 Nougat"
-msgstr ""
-
-#: devices/Devices-template.php:559
-msgid "Android 6.0 Marshmallow"
-msgstr ""
-
-#: devices/Devices-template.php:573
-msgid "Android 5.0 Lollipop"
-msgstr ""
-
-#: devices/Devices-template.php:587
-msgid "Android 4.4 KitKat"
-msgstr ""
-
-#: devices/Devices-template.php:601
-msgid "Android 4.3"
-msgstr ""
-
-#: devices/Devices-template.php:616 devices/Devices-template.php:639
+#: devices/Devices-template.php:532 devices/Devices-template.php:544
 msgid "EAP config"
 msgstr ""
 
-#: devices/Devices-template.php:622
+#: devices/Devices-template.php:538
 #, php-format
 msgid ""
 "This option provides an EAP config XML file, which can be consumed by the "
 "eduroamCAT app for Android."
 msgstr ""
 
-#: devices/Devices-template.php:627
-msgid "EAP generic"
-msgstr ""
-
-#: devices/Devices-template.php:632
-#, php-format
-msgid ""
-"This option provides a generic EAP config XML file, which can be consumed by "
-"the GetEduroam applications."
-msgstr ""
-
-#: devices/Devices-template.php:644
+#: devices/Devices-template.php:549
 #, php-format
 msgid ""
 "This option provides an EAP config XML file with multiple "
 "EAPIdentityProvider elements and all language versions"
 msgstr ""
 
-#: devices/Devices-template.php:650
+#: devices/Devices-template.php:555
 msgid "Test"
 msgstr ""
 
