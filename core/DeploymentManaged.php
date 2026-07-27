@@ -952,11 +952,13 @@ class DeploymentManaged extends AbstractDeployment
             $key = ($onlyone == 1) ? 2 : 1;
             $response['res['.$key.']'] = \core\AbstractDeployment::RADIUS_OK;
         }
+        /*
         foreach (array('OK', 'FAILURE') as $status) {
             if ((($status == 'OK' && $notify) || ($status == 'FAILURE')) && (in_array($status, $response))) {
                 $this->sendMailtoAdmin($remove, $response, $status);
             }
         }
+        */
         return $response;
     }
     /**
