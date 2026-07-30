@@ -30,6 +30,7 @@ Contributors:
     sdasda7777 https://github.com/sdasda7777
     Matt Jolly http://gitlab.com/Matt.Jolly
     Benoit LE TEXIER benoit.le-texier@imt-atlantique.fr
+    jmontes https://github.com/m4r4d0n4
 
 Many thanks for multiple code fixes, feature ideas, styling remarks
 much of the code provided by them in the form of pull requests
@@ -62,6 +63,8 @@ import sys
 import uuid
 from shutil import copyfile
 from typing import List, Optional, Type, Union
+from pathlib import Path
+
 
 NM_AVAILABLE = True
 NEW_CRYPTO_AVAILABLE = True
@@ -335,6 +338,7 @@ class InstallerData:
         self.silent = silent
         self.pfx_file = pfx_file
         self.install_wired = False
+        self.rehash = True
         if gui in ('tty', 'tkinter', 'yad', 'zenity', 'kdialog'):
             self.gui = gui
         else:
@@ -366,17 +370,35 @@ class InstallerData:
                 sys.exit(1)
         else:
             os.mkdir(get_config_path() + '/cat_installer', 0o700)
+            os.mkdir(get_config_path() + '/cat_installer/ca', 0o700)
 
-    @staticmethod
-    def save_ca() -> None:
+
+    def save_ca(self) -> None:
         """
         Save CA certificate to cat_installer directory
         (create directory if needed)
         """
-        certfile = get_config_path() + '/cat_installer/ca.pem'
-        debug("saving cert")
-        with open(certfile, 'w') as cert:
-            cert.write(Config.CA + "\n")
+        ca_dir = get_config_path() + '/cat_installer/ca'
+        os.makedirs(ca_dir, 0o700, exist_ok=True)
+        for old in os.listdir(ca_dir):
+            os.remove(os.path.join(ca_dir, old))
+        # one file per certificate under cat_installer/ca/
+        pattern = r'-----BEGIN CERTIFICATE-----.*?-----END CERTIFICATE-----'
+        certs = re.findall(pattern, Config.CA, re.DOTALL)
+        for index, cert_pem in enumerate(certs):
+            with open(os.path.join(ca_dir, f'ca-{index}.pem'), 'w') as f:
+                f.write(cert_pem + "\n")
+        if (index > 0):
+            try:
+                subprocess.run(['openssl', 'rehash', ca_dir], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+            except (OSError, RuntimeError):
+                pass
+        if not any(entry.is_symlink() for entry in Path(ca_dir).iterdir()):
+            self.rehash = False
+            certfile = get_config_path() + '/cat_installer/ca.pem'
+            debug("saving cert")
+            with open(certfile, 'w') as cert:
+                cert.write(Config.CA + "\n")
 
 
     def ask(self, question: str, prompt: str = '', default: Optional[bool] = None) -> int:
@@ -1107,7 +1129,7 @@ class CatNMConfigTool:
     """
 
     def __init__(self):
-        self.cacert_file = None
+        self.cacert_location = None
         self.settings_service_name = None
         self.connection_interface_name = None
         self.system_service_name = "org.freedesktop.NetworkManager"
@@ -1168,9 +1190,14 @@ class CatNMConfigTool:
         """
         set certificate files paths and test for existence of the CA cert
         """
-        self.cacert_file = get_config_path() + '/cat_installer/ca.pem'
+        if self.user_data.rehash:
+            self.cacert_location = get_config_path() + '/cat_installer/ca'
+            has_cert = any(Path(self.cacert_location).glob('*.pem'))
+        else:
+            self.cacert_location = get_config_path() + '/cat_installer/ca.pem'
+            has_cert = os.path.isfile(self.cacert_location)
         self.pfx_file = get_config_path() + '/cat_installer/user.p12'
-        if not os.path.isfile(self.cacert_file):
+        if not has_cert:
             print(Messages.cert_error)
             sys.exit(2)
 
@@ -1268,6 +1295,12 @@ class CatNMConfigTool:
         else:
             match_key = 'subject-match'
             match_value = server_name
+        if self.user_data.rehash:
+            ca_spec_key = 'ca-path'
+            ca_spec_value = self.cacert_location
+        else:
+            ca_spec_key = 'ca-cert'
+            ca_spec_value = dbus.ByteArray(f"file://{self.cacert_location}\0".encode())
         if Config.anonymous_identity != '':
             outer_identity = Config.anonymous_identity
         else:
@@ -1275,8 +1308,7 @@ class CatNMConfigTool:
         s_8021x_data = {
             'eap': [Config.eap_outer.lower()],
             'identity': self.user_data.username,
-            'ca-cert': dbus.ByteArray(
-                f"file://{self.cacert_file}\0".encode()),
+            ca_spec_key: ca_spec_value,
             match_key: match_value}
         if Config.eap_outer in ('PEAP', 'TTLS'):
             s_8021x_data['password'] = self.user_data.password
@@ -1351,8 +1383,8 @@ class CatNMConfigTool:
 
     def add_connections(self, user_data: Type[InstallerData]):
         """Delete and then add connections to the system"""
-        self.__check_opts()
         self.user_data = user_data
+        self.__check_opts()
         s_8021x = self.__prepare_connection_data()
         for ssid in Config.ssids:
             self.__delete_existing_connection(ssid)
