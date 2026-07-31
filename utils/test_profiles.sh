@@ -27,10 +27,13 @@
 
 script="$0"
 basename="$(dirname $script)"
-
+#!/bin/bash
+NOW=$(date +"%F-%H:%M:%S")
+echo "Starting $NOW"
 while php $basename/test_fed_profiles.php
 do
   :
 done
 
-echo "Finished"
+NOW1=$(date +"%F-%H:%M:%S")
+echo "Finished NOW1"
