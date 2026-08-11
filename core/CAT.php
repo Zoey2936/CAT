@@ -55,6 +55,8 @@ class CAT extends \core\common\Entity
     public const VERSION_MINOR = 2;
     public const VERSION_PATCH = 2;
     public const VERSION_EXTRA = "";
+    public const NRO_DOCUMENTATION_LINK ="https://wiki.geant.org/x/FACNWg";
+    public const INST_DOCUMENTATION_LINK ="https://wiki.geant.org/x/25g7Bw";
     private const RELEASE_VERSION = TRUE;
     private const USER_API_VERSION = 2;
 

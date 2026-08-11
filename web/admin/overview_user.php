@@ -200,10 +200,12 @@ $end = $langInstance->rtl ? "left" : "right";
     </div>
     <?php
     if (\config\ConfAssistant::CONSORTIUM['name'] == 'eduroam') {
-        $target = "https://wiki.geant.org/x/25g7Bw"; // CAT manual, outdated
-        if (\core\CAT::hostedServicesEnabled()) {
+        $target =  \core\CAT::INST_DOCUMENTATION_LINK; // CAT manual, outdated
+    /*    if (\core\CAT::hostedServicesEnabled()) {
             $target = "https://wiki.geant.org/x/6Zg7Bw"; // Managed IdP manual
         }
+     *
+     */
         $helptext = "<h3 style='display:inline;'>" . sprintf(_("(Need help? Refer to the <a href='%s'>%s administrator manual</a>)"), $target, $uiElements->nomenclatureParticipant) . "</h3>";
     } else {
         $helptext = "";

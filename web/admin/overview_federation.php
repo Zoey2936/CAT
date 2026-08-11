@@ -327,7 +327,7 @@ var hide_downloads = "<?php echo _("Hide downloads") ?>";
                     </table>";
     }
     if (\config\ConfAssistant::CONSORTIUM['name'] == 'eduroam') {
-        $helptext = "<h3>".sprintf(_("Need help? Refer to the <a href='%s'>%s manual</a>"), "https://wiki.geant.org/x/fgBEQQ", $uiElements->nomenclatureFed)."</h3>";
+        $helptext = "<h3>".sprintf(_("Need help? Refer to the <a href='%s'>%s manual</a>"), \core\CAT::NRO_DOCUMENTATION_LINK, $uiElements->nomenclatureFed)."</h3>";
     } else {
         $helptext = "";
     }
