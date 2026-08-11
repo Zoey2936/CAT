@@ -118,7 +118,6 @@ if (isset($_POST['submitbutton'])) {
             header("Location: overview_sp_wrapper.php?inst_id=".$my_inst->identifier.'&deployment_id='.$deployment->identifier);
             exit(0);
         case web\lib\common\FormElements::BUTTON_DELETE:
-            error_log(serialize($_SERVER));
             $response = $deployment->setRADIUSconfig();
             if (in_array('OK', $response)) {
                 $deployment->deactivate();

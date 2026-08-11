@@ -205,7 +205,7 @@ $langObject = new \core\common\Language();
                 }
 		if (str_contains($ou, ',')) {
 		    $modou = 1;
-		    $ou = str_replace(",", "/,", $ou);
+		    $ou = str_replace(",", '\,', $ou);
 		}
 		$ou = preg_replace('/\s+/', ' ',  $ou);
 		if (strlen($ou) >= 64) {

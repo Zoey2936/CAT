@@ -475,7 +475,6 @@ class DeploymentManaged extends AbstractDeployment
          
         $inst = new IdP($this->institution);
         $ourserverwithports = $this->findGoodServerLocation($ourLocation, $inst->federation, []);
-        error_log("SERVERS ".serialize($ourserverwithports));
         $ourserver = substr($ourserverwithports, 0, strpos($ourserverwithports, "#"));
         $portRange = substr($ourserverwithports, strpos($ourserverwithports, "#") + 1);
         $ports = explode("-", $portRange);
@@ -710,6 +709,7 @@ class DeploymentManaged extends AbstractDeployment
     private function sendToRADIUS(int $idx, $post)
     {
         $hostname = "radius_hostname_$idx";
+        $hostip = 'host'.$idx.'_v4';
         $p = "server$idx"."_secret";
         $key = $this->$p;
         $p = "server$idx"."_iv";
@@ -720,7 +720,7 @@ class DeploymentManaged extends AbstractDeployment
         if ($encrypted !== false) {
             $post = "enc=".urlencode(base64_encode($encrypted));
         }
-        $ch = curl_init("http://".$this->$hostname.':'.\config\Master::MANAGEDSP['radiusconfigport']);
+        $ch = curl_init("http://".$this->$hostip.':'.\config\Master::MANAGEDSP['radiusconfigport']);
         if ($ch === FALSE) {
             $res = 'FAILURE';
         } else {

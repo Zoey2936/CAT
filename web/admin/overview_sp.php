@@ -483,12 +483,12 @@ function displayDeploymentPropertyWidget(&$deploymentObject, $errormsg=[], $edit
                             if (array_key_exists('FAILURE', $res) && $res['FAILURE'] > 0) {
                                 echo '<br>';
                                 if ($res['FAILURE'] == 2) {
-                                    echo ' <span style="color: red;">' . _("Activation failure.") . '</span>';
+                                    echo ' <span style="color: red;">' . _("Deactivation failure.") . '</span>';
                                 } else {
                                     if (isset($_GET['res'][1]) && $_GET['res']['1'] == 'FAILURE') {
-                                        echo ' <span style="color: red;">' . _("Activation failure for your primary RADIUS server.") . '</span>';
+                                        echo ' <span style="color: red;">' . _("Dectivation failure for your primary RADIUS server.") . '</span>';
                                     } else {
-                                        echo ' <span style="color: red;">' . _("Activation failure for your backup RADIUS server.") . '</span>';
+                                        echo ' <span style="color: red;">' . _("Dectivation failure for your backup RADIUS server.") . '</span>';
                                     }
                                 }
                             }
@@ -523,12 +523,12 @@ function displayDeploymentPropertyWidget(&$deploymentObject, $errormsg=[], $edit
                                 if (array_key_exists('FAILURE', $res) && $res['FAILURE'] > 0) {
                                     echo '<br>';
                                     if ($res['FAILURE'] == 2) {
-                                        echo ' <span style="color: red;">' . _("Failure during deactivation, your request is queued for handling") . '</span>';
+                                        echo ' <span style="color: red;"><br>' . _("Activation failure.") . '</span>';
                                     } else {
                                         if (isset($_GET['res'][1]) && $_GET['res']['1'] == 'FAILURE') {
-                                            echo ' <span style="color: red;">' . _("Deactivation failure for your primary RADIUS server, your request is queued.") . '</span>';
+                                            echo ' <span style="color: red;"><br>' . _("Activation failure for your primary RADIUS server.") . '</span>';
                                         } else {
-                                            echo ' <span style="color: red;">' . _("Deactivation failure for your backup RADIUS server, your request is queued.") . '</span>';
+                                            echo ' <span style="color: red;"><br>' . _("Activation failure for your backup RADIUS server.") . '</span>';
                                         }
                                     }
                                 }
@@ -632,6 +632,7 @@ function displayDeploymentPropertyWidget(&$deploymentObject, $errormsg=[], $edit
         <th scope="col"><strong><?php echo _("Protocol");?></strong></th>
     </tr>
     <?php
+
     $userAuthData = $deploymentObject->retrieveStatistics(0,5);
     $i = 0;	   
     foreach ($userAuthData as $oneRecord) {
