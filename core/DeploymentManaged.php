@@ -221,12 +221,11 @@ class DeploymentManaged extends AbstractDeployment
         if (!is_numeric($deploymentIdRaw)) {
             throw new Exception("Managed SP instances have to have a numeric identifier");
         }
-        $propertyQuery = "SELECT consortium,status,port_instance_1,port_instance_2,secret,radius_instance_1,radius_instance_2,radius_status_1,radius_status_2,radsec_priv,radsec_cert,pskkey FROM deployment WHERE deployment_id = ?";
+        $propertyQuery = "SELECT inst_id,consortium,status,port_instance_1,port_instance_2,secret,radius_instance_1,radius_instance_2,radius_status_1,radius_status_2,radsec_priv,radsec_cert,pskkey FROM deployment WHERE deployment_id = ?";
         $queryExec = $this->databaseHandle->exec($propertyQuery, "i", $deploymentIdRaw);
         if (mysqli_num_rows(/** @scrutinizer ignore-type */ $queryExec) == 0) {
             throw new Exception("Attempt to construct an unknown DeploymentManaged!");
         }
-        
         $this->identifier = $deploymentIdRaw;
         while ($iterator = mysqli_fetch_object(/** @scrutinizer ignore-type */ $queryExec)) {
             if ($iterator->secret == NULL && $iterator->radius_instance_1 == NULL) {
@@ -247,6 +246,9 @@ class DeploymentManaged extends AbstractDeployment
                 $this->radius_status_2 = 1;
                 $this->status = AbstractDeployment::INACTIVE;
             } else {
+                if ($iterator->inst_id != $this->institution) {
+                    throw new Exception("Wrong institution! Deployment $deploymentIdRaw belongs to ".$iterator->inst_id.' not '.$this->institution);
+                }
                 $this->port1 = $iterator->port_instance_1;
                 $this->port2 = $iterator->port_instance_2;
                 $this->secret = $iterator->secret;
